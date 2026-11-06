@@ -1,79 +1,194 @@
 # Oklahoma Career Skills Matcher
 
-A Streamlit prototype that compares user-entered skills with predefined
-skill lists for selected Oklahoma industry categories.
+A rule-based Streamlit prototype that compares skills you enter with example
+skill lists for selected industry categories.
 
-This is a rule-based demonstration. Its match score is based on exact
-keyword overlap; it is not an AI assessment, a hiring prediction, or a
-substitute for professional career guidance.
+This is an **independent portfolio project**. It is **not affiliated with or
+endorsed by** the Oklahoma Employment Security Commission (OESC) or the U.S.
+Bureau of Labor Statistics (BLS). It uses example skill lists and does not
+retrieve live labor-market data.
 
-## How it works
+The app demonstrates Streamlit development and simple matching logic. It is
+not a hiring tool, a job-readiness assessment, or career advice.
 
-1. Enter a name and a comma-separated list of skills.
+## Architecture
+
+```text
+Skills entered by the user
+    |
+    v
+Split at commas, semicolons, or new lines
+    |
+    v
+Normalize: lowercase, trim extra spaces, remove duplicates
+    |
+    v
+Compare exact skill names with the selected example skill list
+    |
+    v
+Display matched skills, skills to explore, and example certifications
+```
+
+The app calls no external service, uses no AI model, and saves no entries.
+
+## Main capabilities
+
+- Accepts skills separated by commas, semicolons, or new lines.
+- Ignores capitalization, extra spaces, and duplicate entries.
+- Compares entries with four example industry skill lists.
+- Shows matched skills and skills to explore.
+- Displays the percentage of example skills matched, with a clear caveat.
+- Lists example certifications to research.
+- Warns users not to enter sensitive personal information or a real résumé.
+
+## Technology stack
+
+| Component | Purpose |
+|---|---|
+| Python | Application logic and skill parsing |
+| Streamlit | Browser interface |
+| Python `re` module | Splitting skill entries |
+| Python dictionaries | Example skills and certifications |
+
+## Project structure
+
+```text
+OESC-Career-Matcher/
+|-- app.py              Streamlit application and matching logic
+|-- requirements.txt    Python package list
+|-- .gitignore          Files Git should not track
+`-- README.md           Project documentation
+```
+
+## Requirements
+
+- Windows with PowerShell.
+- Python 3.12 recommended.
+- Packages listed in `requirements.txt`.
+- A web browser.
+- No API key or external service is needed.
+
+## Environment setup
+
+From the project folder on your computer:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r .\requirements.txt
+```
+
+Check the installed dependencies:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip check
+```
+
+## Run the app
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run app.py --server.address 127.0.0.1
+```
+
+Open the local address shown in PowerShell. Keep PowerShell open while using
+the app. Press Ctrl+C in PowerShell to stop it.
+
+## How to use it
+
+1. Enter skills separated by commas, semicolons, or new lines.
 2. Choose an industry category.
-3. Select **Analyze My Career Match**.
-4. Review the displayed matches, missing skills, and suggested
-   certification.
+3. Select **Compare My Skills**.
+4. Review the matched skills, skills to explore, and certifications to research.
 
-The prototype contains four predefined categories:
+Use sample skills only.
 
-- Healthcare Support
-- Logistics & Supply Chain
-- Data Analytics & IT
-- Advanced Manufacturing
+## How matching works
 
-## Technology
+1. The text is split at commas, semicolons, and new lines.
+2. Each entry is converted to lowercase, extra spaces are removed, and
+   duplicate entries are ignored.
+3. Each example skill in the selected category is checked for an exact match.
+4. The percentage equals the matched example skills divided by the number of
+   example skills in that category. Each category has five example skills, so
+   each match adds 20 percentage points.
+5. Matched skills, skills to explore, and the category's example certifications
+   are displayed.
 
-- Python
-- Streamlit
-- Predefined Python dictionaries and lists
+## Industry categories
 
-## Run locally
+| Category | Example skills | Example certifications to research |
+|---|---|---|
+| Healthcare Support | communication, patient care, CPR, EMR, scheduling | Certified Nursing Assistant (CNA); Basic Life Support (BLS) certification |
+| Logistics & Supply Chain | inventory, Excel, shipping, forklift, safety | Certified Logistics Associate (CLA); forklift operator certification |
+| Data Analytics & IT | Excel, SQL, Tableau, Python, data entry | Google Data Analytics Certificate; Tableau certification |
+| Advanced Manufacturing | safety, blueprints, quality control, machining, math | OSHA 10-Hour General Industry training |
 
-Requires Python and Streamlit. From the project folder, install Streamlit:
+In the Healthcare category, **BLS** means Basic Life Support. It does not refer
+to the Bureau of Labor Statistics.
 
-```powershell
-python -m pip install streamlit
+The skill lists are short, generic examples chosen for demonstration. They are
+not verified job requirements for any employer or region.
+
+## Example result
+
+Enter this text:
+
+```text
+excel, sql, tableau, python
 ```
 
-Then run the application, replacing `APP_FILENAME.py` with the actual
-Python filename in this repository:
+Then choose **Data Analytics & IT** and select **Compare My Skills**.
 
-```powershell
-python -m streamlit run APP_FILENAME.py
-```
+Expected display:
 
-Streamlit will display a local browser address.
+- Example skill-list overlap: **80%**
+- Matched skills: Excel, Sql, Tableau, Python
+- Skills to explore: Data Entry
+- Certifications to research: Google Data Analytics Certificate; Tableau certification
 
-## Data and limitations
+The app title-cases skill names for display, so "SQL" appears as "Sql."
 
-- Industry requirements, certification suggestions, and growth figures
-  are hard-coded in the prototype.
-- The application does not currently retrieve live BLS data.
-- The displayed growth figures are illustrative and have not been
-  verified or linked to a source in this repository.
-- The percentage is a simple comparison with the selected predefined
-  skill list. It is not a validated measure of job readiness.
-- The current matching method expects comma-separated skills; a pasted
-  résumé paragraph may not match correctly.
-- Certification suggestions should be independently researched before
-  making education or career decisions.
-- This prototype should not be used as an employment-screening decision
-  tool.
+## Testing
 
-## Privacy
+This prototype does not include automated tests yet. Its matching logic is
+simple and can be checked manually with the example above.
 
-For demonstrations, use invented names and sample skills. Do not enter
-sensitive personal information or a real résumé unless you understand the
-hosting and data-handling arrangements.
+## Current limitations
 
-## Possible improvements
+- The app is rule-based. It uses no AI model, machine learning, or live
+  labor-market data.
+- Matching is exact. "Microsoft Excel" does not match "excel," and "data-entry"
+  does not match "data entry."
+- Spaces alone do not separate skills. Use commas, semicolons, or new lines.
+- A pasted résumé paragraph will rarely match, because only exact skill names
+  count.
+- The title refers to Oklahoma, but the skill lists are generic examples, not
+  Oklahoma labor-market data.
+- The percentage reflects overlap with five example skills only. It is not a
+  hiring, eligibility, or job-readiness score.
+- Certifications are examples. Verify requirements, costs, and availability
+  with official sources.
+- Automatic title-casing displays some abbreviations imperfectly, such as
+  "Sql," "Cpr," and "Emr."
 
-- Replace illustrative growth figures with verified, dated sources.
-- Improve skill matching and prevent duplicate inputs from inflating scores.
-- Remove unsupported claims about automated BLS-agent data.
-- Add tests for matching logic.
-- Document input handling before deploying a public version.
+## Privacy and security
+
+- Use sample skills only. Do not enter your full name, contact details,
+  employer information, or a real résumé.
+- The app does not save entries to a file or database.
+- If the app is published online, the hosting provider may keep its own logs.
+  Avoid personal information in any public demonstration.
+- Running with `--server.address 127.0.0.1` keeps the app on your own computer.
+
+## Demonstration outline
+
+1. Show the independent-project notice.
+2. Enter `excel, sql, tableau, python`.
+3. Choose **Data Analytics & IT**.
+4. Select **Compare My Skills**.
+5. Point out the 80% example overlap, the skills to explore, and the
+   certification examples.
+6. Explain the limits: sample data, exact matching, and no hiring decision.
 
 ## Screenshots 
 
