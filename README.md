@@ -74,3 +74,9 @@ hosting and data-handling arrangements.
 - Remove unsupported claims about automated BLS-agent data.
 - Add tests for matching logic.
 - Document input handling before deploying a public version.
+
+## Screenshots 
+
+<img width="906" height="885" alt="OESC Career Skills Matcher" src="https://github.com/user-attachments/assets/32edcc66-63cf-402d-9540-8a56d1ff64c7" />
+ 
+
