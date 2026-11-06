@@ -48,7 +48,7 @@ The app calls no external service, uses no AI model, and saves no entries.
 ## Project structure
 
 ```text
-OESC-Career-Matcher/
+Oklahoma-Career-Matcher/
 |-- app.py              Streamlit application and matching logic
 |-- requirements.txt    Python package list
 |-- .gitignore          Files Git should not track
