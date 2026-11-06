@@ -3,11 +3,6 @@
 A rule-based Streamlit prototype that compares skills you enter with example
 skill lists for selected industry categories.
 
-This is an **independent portfolio project**. It is **not affiliated with or
-endorsed by** the Oklahoma Employment Security Commission (OESC) or the U.S.
-Bureau of Labor Statistics (BLS). It uses example skill lists and does not
-retrieve live labor-market data.
-
 The app demonstrates Streamlit development and simple matching logic. It is
 not a hiring tool, a job-readiness assessment, or career advice.
 
