@@ -151,10 +151,9 @@ The app title-cases skill names for display, so "SQL" appears as "Sql."
 
 ## Screenshot
 
-![Results page showing 80% example skill-list overlap for the sample skills](results-screenshot.png)
+<img width="906" height="885" alt="Oklahoma Career Skill Match" src="https://github.com/user-attachments/assets/ebca69b4-fdf3-4248-a68d-3710cdeb1e24" />
 
-Results for the sample input `excel, sql, tableau, python` in the Data
-Analytics & IT category. The screenshot uses invented sample skills only.
+Input screen for the sample skills matcher: enter skills separated by commas or new lines, choose an example industry category, then select Compare My Skills. Invented sample data only.
 
 ## Testing
 
