@@ -3,6 +3,11 @@
 A rule-based Streamlit prototype that compares skills you enter with example
 skill lists for selected industry categories.
 
+**This is an independent portfolio project.** It is **not affiliated with or
+endorsed by** the Oklahoma Employment Security Commission (OESC) or the U.S.
+Bureau of Labor Statistics (BLS). It uses example skill lists and does not
+retrieve live labor-market data.
+
 The app demonstrates Streamlit development and simple matching logic. It is
 not a hiring tool, a job-readiness assessment, or career advice.
 
@@ -48,11 +53,12 @@ The app calls no external service, uses no AI model, and saves no entries.
 ## Project structure
 
 ```text
-Oklahoma-Career-Matcher/
-|-- app.py              Streamlit application and matching logic
-|-- requirements.txt    Python package list
-|-- .gitignore          Files Git should not track
-`-- README.md           Project documentation
+career-skills-matcher/
+|-- app.py                   Streamlit application and matching logic
+|-- requirements.txt         Python package list
+|-- results-screenshot.png   Screenshot shown in this README
+|-- .gitignore               Files Git should not track
+`-- README.md                Project documentation
 ```
 
 ## Requirements
@@ -143,6 +149,13 @@ Expected display:
 
 The app title-cases skill names for display, so "SQL" appears as "Sql."
 
+## Screenshot
+
+![Results page showing 80% example skill-list overlap for the sample skills](results-screenshot.png)
+
+Results for the sample input `excel, sql, tableau, python` in the Data
+Analytics & IT category. The screenshot uses invented sample skills only.
+
 ## Testing
 
 This prototype does not include automated tests yet. Its matching logic is
@@ -184,9 +197,3 @@ simple and can be checked manually with the example above.
 5. Point out the 80% example overlap, the skills to explore, and the
    certification examples.
 6. Explain the limits: sample data, exact matching, and no hiring decision.
-
-## Screenshots 
-
-<img width="906" height="885" alt="OESC Career Skills Matcher" src="https://github.com/user-attachments/assets/32edcc66-63cf-402d-9540-8a56d1ff64c7" />
- 
-
