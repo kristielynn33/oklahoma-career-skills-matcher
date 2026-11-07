@@ -54,11 +54,10 @@ The app calls no external service, uses no AI model, and saves no entries.
 
 ```text
 career-skills-matcher/
-|-- app.py                   Streamlit application and matching logic
-|-- requirements.txt         Python package list
-|-- results-screenshot.png   Screenshot shown in this README
-|-- .gitignore               Files Git should not track
-`-- README.md                Project documentation
+|-- app.py              Streamlit application and matching logic
+|-- requirements.txt    Python package list
+|-- .gitignore          Files Git should not track
+`-- README.md           Project documentation
 ```
 
 ## Requirements
@@ -148,12 +147,6 @@ Expected display:
 - Certifications to research: Google Data Analytics Certificate; Tableau certification
 
 The app title-cases skill names for display, so "SQL" appears as "Sql."
-
-## Screenshot
-
-<img width="906" height="885" alt="Oklahoma Career Skill Match" src="https://github.com/user-attachments/assets/ebca69b4-fdf3-4248-a68d-3710cdeb1e24" />
-
-Input screen for the sample skills matcher: enter skills separated by commas or new lines, choose an example industry category, then select Compare My Skills. Invented sample data only.
 
 ## Testing
 
