@@ -1,99 +1,205 @@
+import re
+
 import streamlit as st
 
-# Set up the webpage layout
-st.set_page_config(page_title="OESC Career Matcher Tool", layout="centered")
 
-# App Header
-st.title("🎯 OESC Smart Career Matcher")
-st.write("Match your skills against Oklahoma's highest-growth industries.")
-st.markdown("---")
-
-# 1. User Input Section
-st.subheader("📋 Step 1: Enter Your Professional Profile")
-user_name = st.text_input("Full Name")
-user_skills_input = st.text_area("Paste your resume summary or list your skills here (comma-separated):", 
-                                 placeholder="Example: Customer service, Excel, data entry, communication")
-
-# 2. Industry Selection
-st.subheader("📈 Step 2: Choose Your Target Oklahoma Industry")
-target_industry = st.selectbox(
-    "Which high-growth sector from our BLS reports are you targeting?",
-    ["Healthcare Support", "Logistics & Supply Chain", "Data Analytics & IT", "Advanced Manufacturing"]
+st.set_page_config(
+    page_title="Oklahoma Career Skills Matcher",
+    page_icon="🎯",
+    layout="centered",
 )
 
-# 3. Matching Logic Data
-industry_requirements = {
+st.title("🎯 Oklahoma Career Skills Matcher")
+
+st.caption(
+    "Independent portfolio prototype. Not affiliated with or endorsed "
+    "by the Oklahoma Employment Security Commission (OESC) or the "
+    "U.S. Bureau of Labor Statistics (BLS)."
+)
+
+st.write(
+    "Compare your skills with example skill lists for selected "
+    "industry categories."
+)
+
+st.warning(
+    "For demonstrations, use sample skills. Do not enter sensitive "
+    "personal information or a real résumé."
+)
+
+st.markdown("---")
+
+# Example skill lists for demonstration purposes.
+# These are not official or validated job requirements.
+INDUSTRY_PROFILES = {
     "Healthcare Support": {
-        "required": ["communication", "patient care", "cpr", "emr", "scheduling"],
-        "cert": "Certified Nursing Assistant (CNA) or BLS Certification",
-        "growth": "+14% (High Demand)"
+        "skills": [
+            "communication",
+            "patient care",
+            "cpr",
+            "emr",
+            "scheduling",
+        ],
+        "certifications": [
+            "Certified Nursing Assistant (CNA)",
+            "Basic Life Support (BLS) certification",
+        ],
     },
     "Logistics & Supply Chain": {
-        "required": ["inventory", "excel", "shipping", "forklift", "safety"],
-        "cert": "Certified Logistics Associate (CLA)",
-        "growth": "+11% (Steady Growth)"
+        "skills": [
+            "inventory",
+            "excel",
+            "shipping",
+            "forklift",
+            "safety",
+        ],
+        "certifications": [
+            "Certified Logistics Associate (CLA)",
+            "Forklift operator certification",
+        ],
     },
     "Data Analytics & IT": {
-        "required": ["excel", "sql", "tableau", "python", "data entry"],
-        "cert": "Google Data Analytics Certificate or Tableau Desktop Certified",
-        "growth": "+22% (Critical Demand)"
+        "skills": [
+            "excel",
+            "sql",
+            "tableau",
+            "python",
+            "data entry",
+        ],
+        "certifications": [
+            "Google Data Analytics Certificate",
+            "Tableau certification",
+        ],
     },
     "Advanced Manufacturing": {
-        "required": ["safety", "blueprints", "quality control", "machining", "math"],
-        "cert": "OSHA 10-Hour General Industry Certification",
-        "growth": "+8% (Regional Growth)"
-    }
+        "skills": [
+            "safety",
+            "blueprints",
+            "quality control",
+            "machining",
+            "math",
+        ],
+        "certifications": [
+            "OSHA 10-Hour General Industry training",
+        ],
+    },
 }
 
-# 4. Action Button & Results Generator
+
+def parse_skills(text: str) -> set[str]:
+    """Split skills on commas, semicolons, or new lines; remove duplicates."""
+
+    parts = re.split(r"[,;\n]+", text.lower())
+
+    return {
+        " ".join(part.split())
+        for part in parts
+        if part.strip()
+    }
+
+
+def compare_skills(
+    user_skills: set[str],
+    example_skills: list[str],
+) -> tuple[list[str], list[str], int]:
+    """Return matched skills, missing skills, and an overlap percentage."""
+
+    matched = [
+        skill for skill in example_skills
+        if skill in user_skills
+    ]
+
+    missing = [
+        skill for skill in example_skills
+        if skill not in user_skills
+    ]
+
+    score = round(len(matched) / len(example_skills) * 100)
+
+    return matched, missing, score
+
+
+st.subheader("📋 Step 1: Enter Your Skills")
+
+skills_text = st.text_area(
+    "List skills separated by commas or new lines",
+    placeholder="Example: customer service, excel, data entry, communication",
+    max_chars=2000,
+)
+
+st.subheader("📈 Step 2: Choose an Industry Category")
+
+industry = st.selectbox(
+    "Industry category",
+    list(INDUSTRY_PROFILES),
+)
+
 st.markdown("---")
-if st.button("🚀 Analyze My Career Match"):
-    if not user_skills_input:
-        st.error("Please enter some skills first to run the analysis.")
+
+if st.button("🚀 Compare My Skills"):
+    user_skills = parse_skills(skills_text)
+
+    if not user_skills:
+        st.error("Please enter at least one skill.")
+
     else:
-        # Process user skills (lowercase for accurate matching)
-        user_skills = [s.strip().lower() for s in user_skills_input.split(",")]
-        
-        # Get target industry data
-        industry_data = industry_requirements[target_industry]
-        req_skills = industry_data["required"]
-        
-        # Calculate overlapping skills
-        matched_skills = [skill for skill in user_skills if skill in req_skills]
-        missing_skills = [skill for skill in req_skills if skill not in user_skills]
-        
-        # Calculate a mock matching percentage score
-        score = int((len(matched_skills) / len(req_skills)) * 100) if req_skills else 0
-        
-        # Display Results Dashboard
-        st.subheader(f"📊 Results for {user_name if user_name else 'Applicant'}")
-        
-        # Score visual metric
-        st.metric(label=f"Match Score for {target_industry}", value=f"{score}%", delta=industry_data["growth"])
-        
-        # Progress Bar visual
+        profile = INDUSTRY_PROFILES[industry]
+
+        matched, missing, score = compare_skills(
+            user_skills,
+            profile["skills"],
+        )
+
+        st.subheader(f"📊 Results for {industry}")
+
+        st.metric(
+            label="Example skill-list overlap",
+            value=f"{score}%",
+        )
+
         st.progress(score / 100)
-        
-        # Breakdown columns
-        col1, col2 = st.columns(2)
-        with col1:
-            st.success("✅ Matched Skills")
-            if matched_skills:
-                for skill in matched_skills:
+
+        st.caption(
+            "This percentage only shows how many example skills matched "
+            "exactly. It is not a hiring prediction, a job-readiness "
+            "score, or professional career advice."
+        )
+
+        column_1, column_2 = st.columns(2)
+
+        with column_1:
+            st.success("✅ Matched skills")
+
+            if matched:
+                for skill in matched:
                     st.write(f"- {skill.title()}")
             else:
-                st.write("*None detected yet.*")
-                
-        with col2:
-            st.warning("🔍 Recommended to Add")
-            if missing_skills:
-                for skill in missing_skills:
+                st.write("*No exact matches found.*")
+
+        with column_2:
+            st.warning("🔍 Skills to explore")
+
+            if missing:
+                for skill in missing:
                     st.write(f"- {skill.title()}")
             else:
-                st.write("*You match all core skills!*")
-        
-        # Tailored Action Plan Step
+                st.write("*All example skills matched.*")
+
         st.markdown("---")
-        st.subheader("💡 Your Next Step Plan")
-        st.info(f"**Recommended Certification:** To bridge your skill gaps and stand out to local Oklahoma employers, look into getting your **{industry_data['cert']}**.")
-        st.markdown("🔗 *Report compiled automatically using your BLS Agent data profile.*")
+        st.subheader("💡 Certifications to Research")
+
+        for certification in profile["certifications"]:
+            st.write(f"- {certification}")
+
+        st.info(
+            "These are examples only. Verify requirements, costs, and "
+            "local employer demand with official sources before making "
+            "education or career decisions."
+        )
+
+st.divider()
+
+st.caption(
+    "Skill lists are illustrative examples. This prototype does not "
+    "retrieve live labor-market data."
+)
