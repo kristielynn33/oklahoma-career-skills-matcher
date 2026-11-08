@@ -1,0 +1,7 @@
+# Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local settings and secrets
+.env
