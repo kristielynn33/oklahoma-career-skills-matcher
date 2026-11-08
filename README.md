@@ -53,11 +53,12 @@ The app calls no external service, uses no AI model, and saves no entries.
 ## Project structure
 
 ```text
-career-skills-matcher/
-|-- app.py              Streamlit application and matching logic
-|-- requirements.txt    Python package list
-|-- .gitignore          Files Git should not track
-`-- README.md           Project documentation
+oklahoma-career-skills-matcher/
+|-- app.py                   Streamlit application and matching logic
+|-- requirements.txt         Python package list
+|-- results-screenshot.png   Screenshot shown in this README
+|-- .gitignore               Files Git should not track
+`-- README.md                Project documentation
 ```
 
 ## Requirements
@@ -66,7 +67,8 @@ career-skills-matcher/
 - Python 3.12 recommended.
 - Packages listed in `requirements.txt`.
 - A web browser.
-- No API key or external service is needed.
+- Internet access to download packages.
+- No API key or external service is needed to run the app.
 
 ## Environment setup
 
@@ -147,6 +149,14 @@ Expected display:
 - Certifications to research: Google Data Analytics Certificate; Tableau certification
 
 The app title-cases skill names for display, so "SQL" appears as "Sql."
+
+## Screenshot
+
+<img width="721" height="833" alt="Screenshot 2026-11-08 074221" src="https://github.com/user-attachments/assets/ca4ca4fb-814e-4128-91a7-5ce1d629cd9e" />
+
+
+Results for the sample skills `excel, sql, tableau, python` in the Data
+Analytics & IT category. The example uses invented sample skills only.
 
 ## Testing
 
